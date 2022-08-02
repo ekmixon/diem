@@ -6,13 +6,20 @@ import json, os, random, subprocess, time
 FORGE_K8S_CLUSTERS = ["forge-1"]
 
 AWS_ACCOUNT = (
-    subprocess.check_output(
-        ["aws", "sts", "get-caller-identity", "--query", "Account", "--output", "text"],
+    os.getenv("AWS_ACCOUNT")
+    or subprocess.check_output(
+        [
+            "aws",
+            "sts",
+            "get-caller-identity",
+            "--query",
+            "Account",
+            "--output",
+            "text",
+        ],
         stderr=subprocess.DEVNULL,
         encoding="UTF-8",
     ).strip()
-    if not os.getenv("AWS_ACCOUNT")
-    else os.getenv("AWS_ACCOUNT")
 )
 
 
